@@ -1,0 +1,18 @@
+# Arquivos de configuração
+.env
+.env.*
+
+# Dependências
+node_modules/
+
+# Arquivos de saída da compilação
+dist/
+
+# Logs e arquivos temporários
+logs/
+*.log
+.temp/
+
+# Outros arquivos gerados automaticamente
+.DS_Store
+Thumbs.db
