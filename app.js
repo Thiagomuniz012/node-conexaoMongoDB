@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ObjectId } = require('mongodb');
+require('dotenv').config()
 
 const app = express();
 const port = 3000;
@@ -15,7 +16,7 @@ const corsOptions = {
   app.use(cors(corsOptions));
 
 // MongoDB string de conexão
-const url = 'mongodb+srv://thiagomuniz012:thiagomuniz012@florescer.jfryud5.mongodb.net/?retryWrites=true&w=majority';
+const url = process.env.LINKBANCO;
 const dbName = 'florescer';
 const collectionName = 'profissionais';
 
