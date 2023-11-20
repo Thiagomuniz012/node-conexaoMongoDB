@@ -5,7 +5,6 @@ const { MongoClient, ObjectId } = require('mongodb');
 const app = express();
 const port = 3000;
 
-// Middleware
 app.use(express.static('public'));
 app.use(express.json());
 const corsOptions = {
@@ -15,12 +14,12 @@ const corsOptions = {
   
   app.use(cors(corsOptions));
 
-// MongoDB connection string
-const url = 'mongodb+srv://hillarymsilva:123654@cluster0.vkcogow.mongodb.net/test?retryWrites=true&w=majority';
-const dbName = 'testeflorescer';
+// MongoDB string de conexão
+const url = 'mongodb+srv://thiagomuniz012:thiagomuniz012@florescer.jfryud5.mongodb.net/?retryWrites=true&w=majority';
+const dbName = 'florescer';
 const collectionName = 'profissionais';
 
-// Connect to MongoDB
+// Conexão com o MongoDB
 async function connectToMongoDB() {
   const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -28,7 +27,7 @@ async function connectToMongoDB() {
     await client.connect();
     return client.db(dbName).collection(collectionName);
   } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
+    console.error('Erro ao conectar ao MongoDB:', error);
     return null;
   }
 }
@@ -41,7 +40,7 @@ app.get('/api/mongodb-data', async (req, res) => {
         const profissionais = await collection.find().toArray();
         res.json(profissionais);
     } else {
-        res.status(500).json({ error: 'Error connecting to MongoDB' });
+        res.status(500).json({ error: 'Erro ao conectar ao MongoDB' });
     }
 });
 
@@ -54,7 +53,7 @@ app.post('/api/mongodb-data', async (req, res) => {
         const resultado = await collection.insertOne(novoProfissional);
         res.json({ mensagem: 'Profissional inserido com sucesso', id: resultado.insertedId });
     } else {
-        res.status(500).json({ error: 'Error connecting to MongoDB' });
+        res.status(500).json({ error: 'Erro ao conectar ao MongoDB' });
     }
 });
 
@@ -71,10 +70,10 @@ app.get('/api/mongodb-data/:id', async (req, res) => {
         if (profissional) {
             res.json(profissional);
         } else {
-            res.status(404).json({ error: 'Profissional not found' });
+            res.status(404).json({ error: 'Profissional não existe' });
         }
     } else {
-        res.status(500).json({ error: 'Error connecting to MongoDB' });
+        res.status(500).json({ error: 'Erro ao conectar ao MongoDB' });
     }
 });
 
@@ -92,10 +91,10 @@ app.put('/api/mongodb-data/:id', async (req, res) => {
         if (resultado.modifiedCount === 1) {
             res.json({ mensagem: 'Profissional atualizado com sucesso' });
         } else {
-            res.status(404).json({ error: 'Profissional not found' });
+            res.status(404).json({ error: 'Profissional não existe' });
         }
     } else {
-        res.status(500).json({ error: 'Error connecting to MongoDB' });
+        res.status(500).json({ error: 'Erro ao conectar ao MongoDB' });
     }
 });
 
@@ -110,16 +109,16 @@ app.delete('/api/mongodb-data/:id', async (req, res) => {
         const resultado = await collection.deleteOne({ _id: objectId });
 
         if (resultado.deletedCount === 1) {
-            res.json({ mensagem: 'Profissional deleted successfully' });
+            res.json({ mensagem: 'Profissional deletado com sucesso' });
         } else {
-            res.status(404).json({ error: 'Profissional not found' });
+            res.status(404).json({ error: 'Profissional não existe' });
         }
     } else {
-        res.status(500).json({ error: 'Error connecting to MongoDB' });
+        res.status(500).json({ error: 'Erro ao conectar ao MongoDB' });
     }
 });
 
-// Start the server
+// Iniciar servidor
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Servidor rodando na porta: ${port}`);
 });
